@@ -1,7 +1,15 @@
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
+import Home from "./pages/Home";
+import Inventory from "./pages/Inventory";
 
 function App() {
-    return <h1>Gotta Catch 'em All!</h1>;
+    return (
+        <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/inventory" element={<Inventory />} />
+        </Routes>
+    );
 }
 
 export default App;
