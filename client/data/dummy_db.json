@@ -1,0 +1,11 @@
+{
+    "pokemons": [
+        { "id": 3, "name": "venusaur" },
+        { "id": 12, "name": "butterfree" },
+        { "id": 59, "name": "arcanine" },
+
+        { "id": 134, "name": "vaporeon" },
+        { "id": 143, "name": "snorlax" },
+        { "id": 149, "name": "dragonite" }
+    ]
+}
