@@ -1,5 +1,10 @@
 export interface PokemonPage {
-    results: { name: string; url: string }[];
+    results: PokemonPageResult[];
     next: string | null;
     previous: string | null;
+}
+
+export interface PokemonPageResult {
+    name: string;
+    url: string;
 }

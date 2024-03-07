@@ -1,28 +1,26 @@
-import { Container } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import Navbar from "../components/Navbar";
-import PokemonPage from "../components/PokemonPage";
 import PokemonDetail from "../components/PokemonDetail";
 import { useEffect, useState } from "react";
 import { getPokemon, getPokemonPage } from "../services/pokeapi";
-import { Pokemon } from "../models/Pokemon";
+import PokemonItem from "../components/PokemonItem";
+import { PokemonPage, PokemonPageResult } from "../models/PokemonPage";
+import getIdFromURL from "../utils/getPokemonId";
 
 export default function Home() {
-    // for searching
-    //let allPokemonNamesEver: string[] = [];
-
     // for pagination
+    const PAGE_LIMIT = 131;
     const [currentPage, setCurrentPage] = useState(1);
-    let pokemons: Pokemon[] = [];
+    const [pokemonList, setPokemonList] = useState<PokemonPageResult[]>();
+
+    // for pokemon detail
+    const [selectedPokemon, setSelectedPokemon] = useState();
 
     useEffect(() => {
-        getPokemonPage(currentPage).then((res) =>
-            res.results.forEach((pageData) => {
-                getPokemon(pageData.name).then((pokemon) => {
-                    pokemons.push(pokemon);
-                });
-            })
-        );
-    }, []);
+        getPokemonPage(currentPage).then((page) => {
+            setPokemonList(page.results);
+        });
+    }, [currentPage]);
 
     return (
         <main>
@@ -32,7 +30,47 @@ export default function Home() {
                 routeName="Inventory"
             />
             <Container fluid className="d-flex m-0 p-0">
-                <PokemonPage pokemons={pokemons} />
+                <Container>
+                    <form>
+                        <input
+                            disabled
+                            className="form-control mt-2 mb-2"
+                            type="search"
+                            placeholder="Type here..."
+                            aria-label="Search input"
+                        />
+                    </form>
+                    <div className="text-center">
+                        <div className="btn-group">
+                            <button
+                                onClick={() => setCurrentPage(currentPage - 1)}
+                                type="button"
+                                className="btn btn-danger"
+                                disabled={currentPage <= 1}
+                            >
+                                Previous
+                            </button>
+                            <button
+                                onClick={() => setCurrentPage(currentPage + 1)}
+                                type="button"
+                                className="btn btn-danger"
+                                disabled={currentPage >= PAGE_LIMIT}
+                            >
+                                Next
+                            </button>
+                        </div>
+                    </div>
+                    <Container>
+                        {pokemonList?.map((pokemon) => (
+                            <PokemonItem
+                                key={pokemon.name}
+                                name={pokemon.name}
+                                id={getIdFromURL(pokemon.url)}
+                                setSelectedPokemon={setSelectedPokemon}
+                            />
+                        ))}
+                    </Container>
+                </Container>
                 <PokemonDetail />
             </Container>
         </main>
