@@ -1,3 +1,5 @@
+import { Container } from "react-bootstrap";
+
 export default function PokemonDetail() {
-    return <div>PokemonDetail</div>;
+    return <Container>PokemonDetail</Container>;
 }
