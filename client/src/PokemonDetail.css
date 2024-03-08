@@ -7,6 +7,11 @@ img {
     font-size: 200%;
 }
 
+.id-container {
+    min-width: 50px;
+    text-align: center;
+}
+
 ul {
     list-style-type: none;
     list-style-position: inside;

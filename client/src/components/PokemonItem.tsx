@@ -14,14 +14,13 @@ export default function PokemonItem({
     return (
         <Container
             role="button"
-            className="mt-2 bg-white shadow rounded"
+            className="mt-2 bg-white shadow rounded d-flex align-items-center"
             onClick={() => handleSelectPokemon?.(name)}
         >
-            {"#" + id}
+            <div className="id-container">{"#" + id}</div>
             <img
                 src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`}
                 alt={name}
-                className="pokemon-item-img"
                 width="64px"
                 height="64px"
             />
