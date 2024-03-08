@@ -1,5 +1,5 @@
 import "../PokemonDetail.css";
-import { Card, CardBody, Container } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { Pokemon } from "../models/Pokemon";
 import getBackgroundByType from "../utils/getBackgroundByType";
 
@@ -38,7 +38,7 @@ export default function PokemonDetail({ pokemon }: PokemonDetailProps) {
                         <p>Abilities</p>
                         <ul className="p-0 m-0">
                             {pokemon.abilities.map((ability) => (
-                                <li>
+                                <li key={ability.ability.name}>
                                     {ability.ability.name.replace("-", " ")}
                                 </li>
                             ))}

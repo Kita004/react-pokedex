@@ -1,10 +1,9 @@
 import { Container } from "react-bootstrap";
 
 type PokemonItemProps = {
-    //pokemon: Pokemon;
     name: string;
     id: string;
-    handleSelectPokemon: Function;
+    handleSelectPokemon?: Function;
 };
 
 export default function PokemonItem({
@@ -16,7 +15,7 @@ export default function PokemonItem({
         <Container
             role="button"
             className="mt-2 bg-white shadow rounded"
-            onClick={() => handleSelectPokemon(name)}
+            onClick={() => handleSelectPokemon?.(name)}
         >
             {"#" + id}
             <img
