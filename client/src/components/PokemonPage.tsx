@@ -1,15 +1,17 @@
 import { Container } from "react-bootstrap";
 import PokemonItem from "./PokemonItem";
-import { Pokemon } from "../models/Pokemon";
 import { PokemonPageResult } from "../models/PokemonPage";
 import getIdFromURL from "../utils/getPokemonId";
 
 type PokemonPageProps = {
-    //pokemons: Pokemon[];
     pokemonList: PokemonPageResult[];
+    handleSelectPokemon: Function;
 };
 
-export default function PokemonPage({ pokemonList }: PokemonPageProps) {
+export default function PokemonPage({
+    pokemonList,
+    handleSelectPokemon,
+}: PokemonPageProps) {
     return (
         <Container>
             <div>
@@ -33,14 +35,14 @@ export default function PokemonPage({ pokemonList }: PokemonPageProps) {
                     </button>
                 </div>
             </div>
-            {/* {pokemonList?.map((pokemon) => (
-                        <PokemonItem
-                            key={pokemon.name}
-                            name={pokemon.name}
-                            id={getIdFromURL(pokemon.url)}
-                            setSelectedPokemon={}
-                        /> 
-                    ))}*/}
+            {pokemonList?.map((pokemon) => (
+                <PokemonItem
+                    key={pokemon.name}
+                    name={pokemon.name}
+                    id={getIdFromURL(pokemon.url)}
+                    handleSelectPokemon={handleSelectPokemon}
+                />
+            ))}
         </Container>
     );
 }

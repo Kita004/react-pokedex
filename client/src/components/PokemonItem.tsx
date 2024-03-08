@@ -1,26 +1,22 @@
-import { useState } from "react";
-import usePokemon from "../hooks/usePokemon";
-import { Pokemon } from "../models/Pokemon";
-import { getPokemon } from "../services/pokeapi";
-import getIdFromURL from "../utils/getPokemonId";
-import { Container, ListGroup, ListGroupItem } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 
 type PokemonItemProps = {
     //pokemon: Pokemon;
     name: string;
     id: string;
-    setSelectedPokemon: Function;
+    handleSelectPokemon: Function;
 };
 
 export default function PokemonItem({
     name,
     id,
-    setSelectedPokemon,
+    handleSelectPokemon,
 }: PokemonItemProps) {
     return (
         <Container
+            role="button"
             className="mt-2 bg-white shadow rounded"
-            onClick={() => setSelectedPokemon(name)}
+            onClick={() => handleSelectPokemon(name)}
         >
             {"#" + id}
             <img

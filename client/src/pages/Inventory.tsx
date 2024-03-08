@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import PokemonPage from "../components/PokemonPage";
 import { getInventory } from "../services/inventory";
+import PokemonDetail from "../components/PokemonDetail";
 
 export default function Inventory() {
     //let caughtPokemonNames: string[] = [];
@@ -15,7 +16,7 @@ export default function Inventory() {
     return (
         <main>
             <Navbar title="Inventory" route="/" routeName="Home" />
-            <PokemonPage pokemonNames={[]} />
+            pokemon items
         </main>
     );
 }
