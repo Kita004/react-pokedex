@@ -3,7 +3,7 @@ import { Container } from "react-bootstrap";
 import { SimplifiedPokemon, Pokemon } from "../models/Pokemon";
 import getBackgroundByType from "../utils/getBackgroundByType";
 import { useEffect, useState } from "react";
-import { addPokemon, getInventory, removePokemon } from "../services/inventory";
+import { addPokemon, getInventory, deletePokemon } from "../services/inventory";
 
 type PokemonDetailProps = {
     pokemon: Pokemon;
@@ -32,7 +32,7 @@ export default function PokemonDetail({ pokemon }: PokemonDetailProps) {
 
     // delete pokemon from inventory by id
     const releasePokemon = () => {
-        removePokemon(pokemon.id)
+        deletePokemon(pokemon.id)
             .then(() => {
                 setPokemonFavs(
                     pokemonFavs.filter((fav) => fav.id !== pokemon.id)

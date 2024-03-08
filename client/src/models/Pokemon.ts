@@ -1,6 +1,9 @@
-export interface Pokemon {
+export interface SimplifiedPokemon {
     id: number;
     name: string;
+}
+
+export interface Pokemon extends SimplifiedPokemon {
     weight: number;
     height: number;
     abilities: {
@@ -13,9 +16,4 @@ export interface Pokemon {
             name: string;
         };
     }[];
-}
-
-export interface SimplifiedPokemon {
-    id: number;
-    name: string;
 }

@@ -3,11 +3,11 @@ import Navbar from "../components/Navbar";
 import PokemonDetail from "../components/PokemonDetail";
 import { useEffect, useState } from "react";
 import { getPokemon, getPokemonPage } from "../services/pokeapi";
-import PokemonItem from "../components/PokemonItem";
+import PokemonPagination from "../components/PokemonPagination";
 import { PokemonPageResult } from "../models/PokemonPage";
 import getIdFromURL from "../utils/getPokemonId";
-import { Pokemon } from "../models/Pokemon";
-import { getInventory } from "../services/inventory";
+import { Pokemon, SimplifiedPokemon } from "../models/Pokemon";
+import PokemonItem from "../components/PokemonItem";
 
 export default function Home() {
     // for pagination
@@ -17,6 +17,11 @@ export default function Home() {
 
     // for pokemon detail
     const [selectedPokemon, setSelectedPokemon] = useState<Pokemon>();
+
+    // for search
+    const [searchTerm, setSearchTerm] = useState<string>("");
+    const [searchedPokemon, setSearchedPokemon] =
+        useState<SimplifiedPokemon | null>();
 
     useEffect(() => {
         getPokemonPage(currentPage).then((page) => {
@@ -36,6 +41,19 @@ export default function Home() {
         getPokemon(pokemonName).then((pokemon) => setSelectedPokemon(pokemon));
     };
 
+    const handleSearchTerm = (term: string) => {
+        if (term && term !== " ") {
+            setSearchTerm(term);
+        } else {
+            setSearchTerm("");
+            setSearchedPokemon(null);
+        }
+    };
+
+    const handleSearchPokemon = async () => {
+        getPokemon(searchTerm).then((pokemon) => setSearchedPokemon(pokemon));
+    };
+
     return (
         <main className="min-vh-100 bg-dark">
             <Navbar
@@ -43,48 +61,40 @@ export default function Home() {
                 route="/inventory"
                 routeName="Inventory"
             />
-            <Container fluid className="p-4 h-100">
+            <Container fluid className="p-4">
                 <Row>
                     <Container className="col">
-                        <form>
+                        <div className="input-group mb-2">
+                            <button
+                                onClick={() => handleSearchPokemon()}
+                                className="btn btn-danger"
+                            >
+                                Search
+                            </button>
                             <input
-                                disabled
-                                className="form-control mb-2"
-                                type="search"
-                                placeholder="Type here..."
-                                aria-label="Search input"
+                                className="form-control"
+                                type="text"
+                                onChange={(ev) =>
+                                    handleSearchTerm(ev.currentTarget.value)
+                                }
                             />
-                        </form>
-                        <div className="text-center">
-                            <div className="btn-group">
-                                <button
-                                    onClick={() => goToPrevious()}
-                                    type="button"
-                                    className="btn btn-danger"
-                                    disabled={currentPage <= 1}
-                                >
-                                    Previous
-                                </button>
-                                <button
-                                    onClick={() => goToNext()}
-                                    type="button"
-                                    className="btn btn-danger"
-                                    disabled={currentPage >= PAGE_LIMIT}
-                                >
-                                    Next
-                                </button>
-                            </div>
                         </div>
-                        <Container>
-                            {pokemonPage?.map((pokemon) => (
-                                <PokemonItem
-                                    key={pokemon.name}
-                                    name={pokemon.name}
-                                    id={getIdFromURL(pokemon.url)}
-                                    handleSelectPokemon={handleSelectPokemon}
-                                />
-                            ))}
-                        </Container>
+                        {searchTerm && searchedPokemon ? (
+                            <PokemonItem
+                                name={searchedPokemon.name}
+                                id={String(searchedPokemon.id)}
+                                handleSelectPokemon={handleSelectPokemon}
+                            />
+                        ) : (
+                            <PokemonPagination
+                                goToPrevious={goToPrevious}
+                                goToNext={goToNext}
+                                currentPage={currentPage}
+                                pokemonPage={pokemonPage!}
+                                PAGE_LIMIT={PAGE_LIMIT}
+                                handleSelectPokemon={handleSelectPokemon}
+                            />
+                        )}
                     </Container>
                     <PokemonDetail pokemon={selectedPokemon!} />
                 </Row>
