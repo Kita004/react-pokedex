@@ -31,7 +31,6 @@ export default function Inventory() {
             currentPage * PAGE_SIZE
         );
         setPokemonPage(page);
-        console.log(pokemonPage);
     };
 
     return (
@@ -39,7 +38,7 @@ export default function Inventory() {
             <Navbar title="Inventory" route="/" routeName="Home" />
             <Container>
                 <div className="text-center">
-                    <div className="btn-group mt-2">
+                    <div className="btn-group mt-4">
                         <button
                             onClick={() => setCurrentPage(currentPage - 1)}
                             type="button"

@@ -7,19 +7,20 @@ import PokemonItem from "../components/PokemonItem";
 import { PokemonPageResult } from "../models/PokemonPage";
 import getIdFromURL from "../utils/getPokemonId";
 import { Pokemon } from "../models/Pokemon";
+import { getInventory } from "../services/inventory";
 
 export default function Home() {
     // for pagination
     const PAGE_LIMIT = 131;
     const [currentPage, setCurrentPage] = useState(1);
-    const [pokemonList, setPokemonList] = useState<PokemonPageResult[]>();
+    const [pokemonPage, setPokemonPage] = useState<PokemonPageResult[]>();
 
     // for pokemon detail
     const [selectedPokemon, setSelectedPokemon] = useState<Pokemon>();
 
     useEffect(() => {
         getPokemonPage(currentPage).then((page) => {
-            setPokemonList(page.results);
+            setPokemonPage(page.results);
         });
     }, [currentPage]);
 
@@ -42,7 +43,7 @@ export default function Home() {
                 route="/inventory"
                 routeName="Inventory"
             />
-            <Container fluid className="p-3 h-100">
+            <Container fluid className="p-4 h-100">
                 <Row>
                     <Container className="col">
                         <form>
@@ -75,7 +76,7 @@ export default function Home() {
                             </div>
                         </div>
                         <Container>
-                            {pokemonList?.map((pokemon) => (
+                            {pokemonPage?.map((pokemon) => (
                                 <PokemonItem
                                     key={pokemon.name}
                                     name={pokemon.name}

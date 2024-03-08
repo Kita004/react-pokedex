@@ -1,13 +1,46 @@
 import "../PokemonDetail.css";
 import { Container } from "react-bootstrap";
-import { Pokemon } from "../models/Pokemon";
+import { SimplifiedPokemon, Pokemon } from "../models/Pokemon";
 import getBackgroundByType from "../utils/getBackgroundByType";
+import { useEffect, useState } from "react";
+import { addPokemon, getInventory, removePokemon } from "../services/inventory";
 
 type PokemonDetailProps = {
     pokemon: Pokemon;
 };
 
 export default function PokemonDetail({ pokemon }: PokemonDetailProps) {
+    // for catching/releasing pokemon
+    const [pokemonFavs, setPokemonFavs] = useState<SimplifiedPokemon[]>([]);
+
+    useEffect(() => {
+        getInventory().then((res) => {
+            setPokemonFavs(res);
+        });
+    }, []);
+
+    // add pokemon to inventory
+    const catchPokemon = () => {
+        const SimplifiedPokemon = {
+            id: pokemon.id,
+            name: pokemon.name,
+        };
+        addPokemon(SimplifiedPokemon).then(() =>
+            setPokemonFavs([...pokemonFavs, SimplifiedPokemon])
+        );
+    };
+
+    // delete pokemon from inventory by id
+    const releasePokemon = () => {
+        removePokemon(pokemon.id)
+            .then(() => {
+                setPokemonFavs(
+                    pokemonFavs.filter((fav) => fav.id !== pokemon.id)
+                );
+            })
+            .catch((err) => console.log("ERRROR when deleting", err));
+    };
+
     return (
         <Container
             className={
@@ -29,21 +62,38 @@ export default function PokemonDetail({ pokemon }: PokemonDetailProps) {
                         height="475px"
                         className="img-fluid"
                     />
-                    <Container className="h-100 responsive-text text-center">
+                    <Container className="responsive-text text-center">
                         <h1 className="text-uppercase">{pokemon.name}</h1>
                         <p>
                             Height: {pokemon.height / 10}m / Weight:{" "}
                             {pokemon.weight / 10}kg
                         </p>
-                        <p>Abilities</p>
-                        <ul className="p-0 m-0">
-                            {pokemon.abilities.map((ability) => (
-                                <li key={ability.ability.name}>
-                                    {ability.ability.name.replace("-", " ")}
-                                </li>
-                            ))}
-                        </ul>
-                        <button className="btn btn-light">RELEASE</button>
+                        <p>
+                            Abilities:{" "}
+                            {pokemon.abilities
+                                .map((ability) => ability.ability.name)
+                                .join(", ")
+                                .replace("-", " ")}
+                        </p>
+                        <div>
+                            {pokemonFavs.some(
+                                (fav) => fav.name === pokemon.name
+                            ) ? (
+                                <button
+                                    onClick={() => releasePokemon()}
+                                    className="btn btn-light"
+                                >
+                                    RELEASE
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={() => catchPokemon()}
+                                    className="btn btn-light"
+                                >
+                                    CATCH
+                                </button>
+                            )}
+                        </div>
                     </Container>
                 </Container>
             )}

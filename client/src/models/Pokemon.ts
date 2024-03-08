@@ -14,3 +14,8 @@ export interface Pokemon {
         };
     }[];
 }
+
+export interface SimplifiedPokemon {
+    id: number;
+    name: string;
+}
