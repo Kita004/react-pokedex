@@ -43,7 +43,7 @@ export default function Inventory() {
                         <button
                             onClick={() => setCurrentPage(currentPage - 1)}
                             type="button"
-                            className="btn btn-primary"
+                            className="btn btn-danger"
                             disabled={currentPage <= 1}
                         >
                             Previous
@@ -52,7 +52,7 @@ export default function Inventory() {
                         <button
                             onClick={() => setCurrentPage(currentPage + 1)}
                             type="button"
-                            className="btn btn-primary"
+                            className="btn btn-danger"
                             disabled={currentPage >= PAGE_MAX}
                         >
                             Next
