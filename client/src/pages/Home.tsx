@@ -36,7 +36,7 @@ export default function Home() {
     };
 
     return (
-        <main className="h-100 bg-dark">
+        <main className="min-vh-100 bg-dark">
             <Navbar
                 title="Gotta Catch 'em All"
                 route="/inventory"
