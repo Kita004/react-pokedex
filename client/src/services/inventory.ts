@@ -3,8 +3,8 @@ import { SimplifiedPokemon } from "../models/Pokemon";
 
 const BASE_URL = "http://localhost:8081";
 
-export const inventoryEndPoint = "/inventory"; // for dummy server
-//export const inventoryEndPoint = "/api/inventory"; // for express
+//export const inventoryEndPoint = "/inventory"; // for dummy server
+export const inventoryEndPoint = "/api/inventory"; // for express
 
 export async function getInventory() {
     const response = await axios.get(BASE_URL + inventoryEndPoint);
@@ -12,8 +12,6 @@ export async function getInventory() {
 }
 
 // for express backend
-
-/*
 export async function addPokemon(pokemon: SimplifiedPokemon) {
     try {
         await axios.post(
@@ -36,10 +34,9 @@ export async function deletePokemon(id: number) {
         throw error;
     }
 }
-*/
 
 // for dummy server
-
+/*
 export async function addPokemon(pokemon: SimplifiedPokemon) {
     try {
         await axios.post(BASE_URL + inventoryEndPoint, pokemon);
@@ -55,3 +52,4 @@ export async function deletePokemon(id: number) {
         console.error(error);
     }
 }
+*/

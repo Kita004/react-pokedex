@@ -44,7 +44,7 @@ export default function PokemonDetail({ pokemon }: PokemonDetailProps) {
     return (
         <Container
             className={
-                "d-flex justify-content-center col-sm shadow rounded text-center " +
+                "d-flex justify-content-center col-sm p-3 shadow rounded text-center " +
                 getBackgroundByType(pokemon, "bg-white")
             }
         >

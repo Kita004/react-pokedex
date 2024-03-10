@@ -16,29 +16,18 @@ export default function Inventory() {
         { onSuccess: (data) => paginatePokemons(data) }
     );
 
-    // const [pokemons, setPokemons] = useState<Pokemon[]>([]);
-
     // for pagination
     const [currentPage, setCurrentPage] = useState(1);
     const [pokemonPage, setPokemonPage] = useState<Pokemon[]>([]);
     const PAGE_SIZE = 10;
     const PAGE_MAX = Math.ceil(pokemonsSWR?.length / PAGE_SIZE);
 
-    /*
-    useEffect(() => {
-        getInventory().then((res) => {
-            setPokemons(res);
-            paginatePokemons(res);
-        });
-    }, []);
-    */
-
     useEffect(() => {
         paginatePokemons(pokemonsSWR);
     }, [currentPage]);
 
     const paginatePokemons = (pokemonList: Pokemon[]) => {
-        const page = pokemonList.slice(
+        const page = pokemonList?.slice(
             (currentPage - 1) * PAGE_SIZE,
             currentPage * PAGE_SIZE
         );
@@ -91,7 +80,7 @@ export default function Inventory() {
                     </div>
                 </div>
 
-                {pokemonPage.map((pokemon: Pokemon) => (
+                {pokemonPage?.map((pokemon: Pokemon) => (
                     <PokemonItem
                         key={pokemon.name}
                         name={pokemon.name}

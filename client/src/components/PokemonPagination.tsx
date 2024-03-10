@@ -1,23 +1,19 @@
 import { Container } from "react-bootstrap";
 import PokemonItem from "./PokemonItem";
 import getIdFromURL from "../utils/getPokemonId";
-import { PokemonPageResult } from "../models/PokemonPage";
+import { PokemonPage } from "../models/PokemonPage";
 
 type PokemonPaginationProps = {
     goToPrevious: Function;
     goToNext: Function;
-    currentPage: number;
-    pokemonPage: PokemonPageResult[];
-    PAGE_LIMIT: number;
+    pokemonPage: PokemonPage | undefined;
     handleSelectPokemon: Function;
 };
 
 export default function PokemonPagination({
     goToPrevious,
     goToNext,
-    currentPage,
     pokemonPage,
-    PAGE_LIMIT,
     handleSelectPokemon,
 }: PokemonPaginationProps) {
     return (
@@ -29,7 +25,7 @@ export default function PokemonPagination({
                             onClick={() => goToPrevious()}
                             type="button"
                             className="btn btn-danger"
-                            disabled={currentPage <= 1}
+                            disabled={pokemonPage?.previous == null}
                         >
                             Previous
                         </button>
@@ -37,13 +33,13 @@ export default function PokemonPagination({
                             onClick={() => goToNext()}
                             type="button"
                             className="btn btn-danger"
-                            disabled={currentPage >= PAGE_LIMIT}
+                            disabled={pokemonPage?.next == null}
                         >
                             Next
                         </button>
                     </div>
                 </div>
-                {pokemonPage?.map((pokemon) => (
+                {pokemonPage?.results.map((pokemon) => (
                     <PokemonItem
                         key={pokemon.name}
                         name={pokemon.name}

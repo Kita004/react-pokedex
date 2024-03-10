@@ -4,6 +4,10 @@ import { PokemonPage } from "../models/PokemonPage";
 
 const BASE_URL = "https://pokeapi.co/api/v2";
 
+// cache keys for SWR
+export const pokemonPageCacheKey = "/pokemonPage";
+export const pokemonDetailCacheKey = "/pokemon";
+
 export async function getPokemonPage(page: number) {
     const pageSize = 10;
     const response = await axios.get<PokemonPage>(

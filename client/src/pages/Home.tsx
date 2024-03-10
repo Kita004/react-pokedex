@@ -1,18 +1,26 @@
 import { Container, Row } from "react-bootstrap";
 import Navbar from "../components/Navbar";
 import PokemonDetail from "../components/PokemonDetail";
-import { useEffect, useState } from "react";
-import { getPokemon, getPokemonPage } from "../services/pokeapi";
+import { useState } from "react";
+import {
+    getPokemon,
+    getPokemonPage,
+    pokemonPageCacheKey,
+    pokemonDetailCacheKey,
+} from "../services/pokeapi";
 import PokemonPagination from "../components/PokemonPagination";
-import { PokemonPageResult } from "../models/PokemonPage";
 import { Pokemon, SimplifiedPokemon } from "../models/Pokemon";
 import PokemonItem from "../components/PokemonItem";
+import useSWR from "swr";
+import PokeballSpinner from "../components/PokeballSpinner";
 
 export default function Home() {
     // for pagination
-    const PAGE_LIMIT = 131;
     const [currentPage, setCurrentPage] = useState(1);
-    const [pokemonPage, setPokemonPage] = useState<PokemonPageResult[]>();
+    const { data: pokemonPageSWR, isLoading } = useSWR(
+        [pokemonPageCacheKey, currentPage],
+        () => getPokemonPage(currentPage)
+    );
 
     // for pokemon detail
     const [selectedPokemon, setSelectedPokemon] = useState<Pokemon>();
@@ -21,12 +29,6 @@ export default function Home() {
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [searchedPokemon, setSearchedPokemon] =
         useState<SimplifiedPokemon | null>();
-
-    useEffect(() => {
-        getPokemonPage(currentPage).then((page) => {
-            setPokemonPage(page.results);
-        });
-    }, [currentPage]);
 
     const goToPrevious = async () => {
         setCurrentPage(currentPage - 1);
@@ -37,7 +39,7 @@ export default function Home() {
     };
 
     const handleSelectPokemon = async (pokemonName: string) => {
-        getPokemon(pokemonName).then((pokemon) => setSelectedPokemon(pokemon));
+        getPokemon(pokemonName).then((res) => setSelectedPokemon(res));
     };
 
     const handleSearchTerm = (term: string) => {
@@ -50,7 +52,9 @@ export default function Home() {
     };
 
     const handleSearchPokemon = async () => {
-        getPokemon(searchTerm).then((pokemon) => setSearchedPokemon(pokemon));
+        await getPokemon(searchTerm).then((pokemon) =>
+            setSearchedPokemon(pokemon)
+        );
     };
 
     return (
@@ -60,9 +64,9 @@ export default function Home() {
                 route="/inventory"
                 routeName="Inventory"
             />
-            <Container fluid className="p-4">
+            <Container fluid className="p-4 h-100">
                 <Row>
-                    <Container className="col">
+                    <Container className="col h-100">
                         <div className="input-group mb-2">
                             <button
                                 onClick={() => handleSearchPokemon()}
@@ -84,13 +88,15 @@ export default function Home() {
                                 id={String(searchedPokemon.id)}
                                 handleSelectPokemon={handleSelectPokemon}
                             />
+                        ) : isLoading ? (
+                            <div className="vh-100">
+                                <PokeballSpinner />
+                            </div>
                         ) : (
                             <PokemonPagination
                                 goToPrevious={goToPrevious}
                                 goToNext={goToNext}
-                                currentPage={currentPage}
-                                pokemonPage={pokemonPage!}
-                                PAGE_LIMIT={PAGE_LIMIT}
+                                pokemonPage={pokemonPageSWR}
                                 handleSelectPokemon={handleSelectPokemon}
                             />
                         )}
