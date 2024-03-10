@@ -33,9 +33,9 @@ export default function PokemonDetail({ pokemon }: PokemonDetailProps) {
     // delete pokemon from inventory
     const releasePokemon = () => {
         deletePokemon(pokemon.id)
-            .then(() => {
+            .then((res) => {
                 setPokemonFavs(
-                    pokemonFavs.filter((fav) => fav.id !== pokemon.id)
+                    pokemonFavs.filter((fav) => fav.id != pokemon.id)
                 );
             })
             .catch((err) => console.error(err)); // TODO show toast with errMsg

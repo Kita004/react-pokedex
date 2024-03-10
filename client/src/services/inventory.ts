@@ -12,10 +12,9 @@ export async function getInventory() {
 }
 
 // for express backend
-
 export async function addPokemon(pokemon: SimplifiedPokemon) {
     try {
-        const response = await axios.post(
+        await axios.post(
             BASE_URL + inventoryEndPoint + "/add-pokemon",
             pokemon
         );
@@ -41,10 +40,7 @@ export async function deletePokemon(id: number) {
 /*
 export async function addPokemon(pokemon: SimplifiedPokemon) {
     try {
-        const response = await axios.post(
-            BASE_URL + inventoryEndPoint,
-            pokemon
-        );
+        await axios.post(BASE_URL + inventoryEndPoint, pokemon);
     } catch (error) {
         console.error(error);
     }
@@ -52,9 +48,7 @@ export async function addPokemon(pokemon: SimplifiedPokemon) {
 
 export async function deletePokemon(id: number) {
     try {
-        const response = await axios.delete(
-            `${BASE_URL}${inventoryEndPoint}/${id}`
-        );
+        await axios.delete(`${BASE_URL}${inventoryEndPoint}/${id}`);
     } catch (error) {
         console.error(error);
     }

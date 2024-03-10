@@ -4,7 +4,6 @@ import { getInventory } from "../services/inventory";
 import { Container } from "react-bootstrap";
 import { Pokemon } from "../models/Pokemon";
 import PokemonItem from "../components/PokemonItem";
-import PokeballSpinner from "../components/PokeballSpinner";
 
 export default function Inventory() {
     const [pokemons, setPokemons] = useState<Pokemon[]>([]);
