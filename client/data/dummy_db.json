@@ -25,24 +25,124 @@
             "name": "dragonite"
         },
         {
-            "id": "1",
-            "name": "bulbasaur"
+            "id": "160",
+            "name": "feraligatr"
         },
         {
-            "id": "2",
-            "name": "ivysaur"
+            "id": "176",
+            "name": "togetic"
         },
         {
-            "id": "4",
-            "name": "charmander"
+            "id": "181",
+            "name": "ampharos"
         },
         {
-            "id": "5",
-            "name": "charmeleon"
+            "id": "214",
+            "name": "heracross"
         },
         {
-            "id": "6",
-            "name": "charizard"
+            "id": "229",
+            "name": "houndoom"
+        },
+        {
+            "id": "235",
+            "name": "smeargle"
+        },
+        {
+            "id": "256",
+            "name": "blaziken"
+        },
+        {
+            "id": "264",
+            "name": "linoone"
+        },
+        {
+            "id": "279",
+            "name": "pelipper"
+        },
+        {
+            "id": "282",
+            "name": "gardevoir"
+        },
+        {
+            "id": "286",
+            "name": "breloom"
+        },
+        {
+            "id": "302",
+            "name": "sableye"
+        },
+        {
+            "id": "392",
+            "name": "infernape"
+        },
+        {
+            "id": "405",
+            "name": "luxray"
+        },
+        {
+            "id": "423",
+            "name": "gastrodon"
+        },
+        {
+            "id": "428",
+            "name": "lopunny"
+        },
+        {
+            "id": "468",
+            "name": "togekiss"
+        },
+        {
+            "id": "478",
+            "name": "froslass"
+        },
+        {
+            "id": "503",
+            "name": "samurott"
+        },
+        {
+            "id": "508",
+            "name": "stoutland"
+        },
+        {
+            "id": "528",
+            "name": "musharna"
+        },
+        {
+            "id": "542",
+            "name": "leavanny"
+        },
+        {
+            "id": "555",
+            "name": "darmanitan"
+        },
+        {
+            "id": "643",
+            "name": "reshiram"
+        },
+        {
+            "id": "655",
+            "name": "delphox"
+        },
+        {
+            "id": "671",
+            "name": "florges"
+        },
+        {
+            "id": "676",
+            "name": "furfrou"
+        },
+        {
+            "id": "681",
+            "name": "aegislash"
+        },
+        {
+            "id": "691",
+            "name": "dragalge"
+        },
+        {
+            "id": "715",
+            "name": "noivern"
         }
     ]
 }

@@ -4,6 +4,7 @@ import { getInventory } from "../services/inventory";
 import { Container } from "react-bootstrap";
 import { Pokemon } from "../models/Pokemon";
 import PokemonItem from "../components/PokemonItem";
+import PokeballSpinner from "../components/PokeballSpinner";
 
 export default function Inventory() {
     const [pokemons, setPokemons] = useState<Pokemon[]>([]);
@@ -36,6 +37,24 @@ export default function Inventory() {
     return (
         <main className="min-vh-100 bg-dark">
             <Navbar title="Inventory" route="/" routeName="Home" />
+            {!pokemons.length && (
+                <div className="flex-column text-center mt-5">
+                    <div>
+                        {[...Array(6)].map((item, i) => (
+                            <img
+                                key={i}
+                                src="./pokeball_icon.svg"
+                                alt="pokeball-spinner"
+                                height={50}
+                                width={50}
+                            />
+                        ))}
+                    </div>
+                    <h3 className="text-light">
+                        No pokemons here, take these and catch some :)
+                    </h3>
+                </div>
+            )}
             <Container>
                 <div className="text-center">
                     <div className="btn-group mt-4">
@@ -44,6 +63,7 @@ export default function Inventory() {
                             type="button"
                             className="btn btn-danger"
                             disabled={currentPage <= 1}
+                            hidden={!pokemons.length}
                         >
                             Previous
                         </button>
@@ -53,11 +73,13 @@ export default function Inventory() {
                             type="button"
                             className="btn btn-danger"
                             disabled={currentPage >= PAGE_MAX}
+                            hidden={!pokemons.length}
                         >
                             Next
                         </button>
                     </div>
                 </div>
+
                 {pokemonPage.map((pokemon: Pokemon) => (
                     <PokemonItem
                         key={pokemon.name}

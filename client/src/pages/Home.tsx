@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { getPokemon, getPokemonPage } from "../services/pokeapi";
 import PokemonPagination from "../components/PokemonPagination";
 import { PokemonPageResult } from "../models/PokemonPage";
-import getIdFromURL from "../utils/getPokemonId";
 import { Pokemon, SimplifiedPokemon } from "../models/Pokemon";
 import PokemonItem from "../components/PokemonItem";
 

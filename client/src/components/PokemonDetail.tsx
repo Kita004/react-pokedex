@@ -25,12 +25,12 @@ export default function PokemonDetail({ pokemon }: PokemonDetailProps) {
             id: pokemon.id,
             name: pokemon.name,
         };
-        addPokemon(SimplifiedPokemon).then(() =>
-            setPokemonFavs([...pokemonFavs, SimplifiedPokemon])
-        );
+        addPokemon(SimplifiedPokemon)
+            .then(() => setPokemonFavs([...pokemonFavs, SimplifiedPokemon]))
+            .catch((err) => console.error(err)); // TODO show toast with errMsg
     };
 
-    // delete pokemon from inventory by id
+    // delete pokemon from inventory
     const releasePokemon = () => {
         deletePokemon(pokemon.id)
             .then(() => {
@@ -38,7 +38,7 @@ export default function PokemonDetail({ pokemon }: PokemonDetailProps) {
                     pokemonFavs.filter((fav) => fav.id !== pokemon.id)
                 );
             })
-            .catch((err) => console.log("ERRROR when deleting", err));
+            .catch((err) => console.error(err)); // TODO show toast with errMsg
     };
 
     return (
@@ -71,9 +71,10 @@ export default function PokemonDetail({ pokemon }: PokemonDetailProps) {
                         <p>
                             Abilities:{" "}
                             {pokemon.abilities
-                                .map((ability) => ability.ability.name)
-                                .join(", ")
-                                .replace("-", " ")}
+                                .map((ability) =>
+                                    ability.ability.name.replace("-", " ")
+                                )
+                                .join(", ")}
                         </p>
                         <div>
                             {pokemonFavs.some(
