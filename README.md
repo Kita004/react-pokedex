@@ -3,7 +3,7 @@ Simple pokedex where on the Home page users can go through all pokemons and chec
 
 - [Built With](#built-with)
 - [Install and Setup](#install-and-setup)
-- [Future plans @ Known bugs](#future-plans-known-bugs)
+- [Future plans & Known bugs](#future-plans-known-bugs)
 - [Links](#links)
 
 
