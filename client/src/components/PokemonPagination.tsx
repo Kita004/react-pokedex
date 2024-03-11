@@ -1,21 +1,44 @@
 import { Container } from "react-bootstrap";
 import PokemonItem from "./PokemonItem";
 import getIdFromURL from "../utils/getPokemonId";
-import { PokemonPage } from "../models/PokemonPage";
+import { PokemonPageResult } from "../models/PokemonPage";
+import { useEffect, useState } from "react";
 
 type PokemonPaginationProps = {
-    goToPrevious: Function;
-    goToNext: Function;
-    pokemonPage: PokemonPage | undefined;
+    PAGE_SIZE: number;
+    pokemons: PokemonPageResult[] | undefined;
     handleSelectPokemon: Function;
 };
 
 export default function PokemonPagination({
-    goToPrevious,
-    goToNext,
-    pokemonPage,
+    PAGE_SIZE,
+    pokemons,
     handleSelectPokemon,
 }: PokemonPaginationProps) {
+    const [pokemonPage, setPokemonPage] = useState<PokemonPageResult[]>();
+    const [currentPage, setCurrentPage] = useState(1);
+    const PAGE_LIMIT = pokemons?.length / PAGE_SIZE || 131;
+
+    const goToPrevious = async () => {
+        setCurrentPage(currentPage - 1);
+    };
+
+    const goToNext = async () => {
+        setCurrentPage(currentPage + 1);
+    };
+
+    const paginatePokemons = (pokemonList: PokemonPageResult[] | undefined) => {
+        const page = pokemonList?.slice(
+            (currentPage - 1) * PAGE_SIZE,
+            currentPage * PAGE_SIZE
+        );
+        setPokemonPage(page);
+    };
+
+    useEffect(() => {
+        paginatePokemons(pokemons);
+    }, [pokemons, currentPage]);
+
     return (
         <Container className="col">
             <Container>
@@ -25,7 +48,7 @@ export default function PokemonPagination({
                             onClick={() => goToPrevious()}
                             type="button"
                             className="btn btn-danger"
-                            disabled={pokemonPage?.previous == null}
+                            disabled={currentPage == 1}
                         >
                             Previous
                         </button>
@@ -33,13 +56,13 @@ export default function PokemonPagination({
                             onClick={() => goToNext()}
                             type="button"
                             className="btn btn-danger"
-                            disabled={pokemonPage?.next == null}
+                            disabled={currentPage >= PAGE_LIMIT}
                         >
                             Next
                         </button>
                     </div>
                 </div>
-                {pokemonPage?.results.map((pokemon) => (
+                {pokemonPage?.map((pokemon) => (
                     <PokemonItem
                         key={pokemon.name}
                         name={pokemon.name}

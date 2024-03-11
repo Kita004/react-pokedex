@@ -8,6 +8,13 @@ const BASE_URL = "https://pokeapi.co/api/v2";
 export const pokemonPageCacheKey = "/pokemonPage";
 export const pokemonDetailCacheKey = "/pokemon";
 
+export async function getAllPokemon() {
+    const response = await axios.get<PokemonPage>(
+        BASE_URL + "/pokemon?limit=9999&offset=0"
+    );
+    return response.data;
+}
+
 export async function getPokemonPage(page: number) {
     const pageSize = 10;
     const response = await axios.get<PokemonPage>(

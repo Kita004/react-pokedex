@@ -4,57 +4,43 @@ import PokemonDetail from "../components/PokemonDetail";
 import { useState } from "react";
 import {
     getPokemon,
-    getPokemonPage,
     pokemonPageCacheKey,
-    pokemonDetailCacheKey,
+    getAllPokemon,
 } from "../services/pokeapi";
 import PokemonPagination from "../components/PokemonPagination";
-import { Pokemon, SimplifiedPokemon } from "../models/Pokemon";
-import PokemonItem from "../components/PokemonItem";
+import { Pokemon } from "../models/Pokemon";
 import useSWR from "swr";
 import PokeballSpinner from "../components/PokeballSpinner";
+import { PokemonPageResult } from "../models/PokemonPage";
 
 export default function Home() {
     // for pagination
-    const [currentPage, setCurrentPage] = useState(1);
-    const { data: pokemonPageSWR, isLoading } = useSWR(
-        [pokemonPageCacheKey, currentPage],
-        () => getPokemonPage(currentPage)
+    const PAGE_SIZE = 10;
+    const { data: pokemonsSWR, isLoading } = useSWR(pokemonPageCacheKey, () =>
+        getAllPokemon()
     );
 
     // for pokemon detail
     const [selectedPokemon, setSelectedPokemon] = useState<Pokemon>();
 
     // for search
-    const [searchTerm, setSearchTerm] = useState<string>("");
-    const [searchedPokemon, setSearchedPokemon] =
-        useState<SimplifiedPokemon | null>();
-
-    const goToPrevious = async () => {
-        setCurrentPage(currentPage - 1);
-    };
-
-    const goToNext = async () => {
-        setCurrentPage(currentPage + 1);
-    };
+    const [filteredPokemon, setFilteredPokemon] = useState<
+        PokemonPageResult[] | null
+    >();
 
     const handleSelectPokemon = async (pokemonName: string) => {
         getPokemon(pokemonName).then((res) => setSelectedPokemon(res));
     };
 
-    const handleSearchTerm = (term: string) => {
+    const handleSearchPokemon = (term: string) => {
         if (term && term !== " ") {
-            setSearchTerm(term);
+            const filteredPokemon = pokemonsSWR?.results.filter((data) =>
+                data.name.includes(term)
+            );
+            setFilteredPokemon(filteredPokemon);
         } else {
-            setSearchTerm("");
-            setSearchedPokemon(null);
+            setFilteredPokemon(null);
         }
-    };
-
-    const handleSearchPokemon = async () => {
-        await getPokemon(searchTerm).then((pokemon) =>
-            setSearchedPokemon(pokemon)
-        );
     };
 
     return (
@@ -68,35 +54,30 @@ export default function Home() {
                 <Row>
                     <Container className="col h-100">
                         <div className="input-group mb-2">
-                            <button
-                                onClick={() => handleSearchPokemon()}
-                                className="btn btn-danger"
-                            >
-                                Search
-                            </button>
                             <input
                                 className="form-control"
                                 type="text"
                                 onChange={(ev) =>
-                                    handleSearchTerm(ev.currentTarget.value)
+                                    handleSearchPokemon(ev.currentTarget.value)
                                 }
                             />
                         </div>
-                        {searchTerm && searchedPokemon ? (
-                            <PokemonItem
-                                name={searchedPokemon.name}
-                                id={String(searchedPokemon.id)}
-                                handleSelectPokemon={handleSelectPokemon}
-                            />
+                        {filteredPokemon ? (
+                            <div>
+                                <PokemonPagination
+                                    pokemons={filteredPokemon}
+                                    PAGE_SIZE={PAGE_SIZE}
+                                    handleSelectPokemon={handleSelectPokemon}
+                                />
+                            </div>
                         ) : isLoading ? (
                             <div className="vh-100">
                                 <PokeballSpinner />
                             </div>
                         ) : (
                             <PokemonPagination
-                                goToPrevious={goToPrevious}
-                                goToNext={goToNext}
-                                pokemonPage={pokemonPageSWR}
+                                pokemons={pokemonsSWR?.results}
+                                PAGE_SIZE={PAGE_SIZE}
                                 handleSelectPokemon={handleSelectPokemon}
                             />
                         )}
