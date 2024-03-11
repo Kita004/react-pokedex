@@ -34,7 +34,7 @@ By now you should be able to see the Home page with some pokemon on `http://loca
 Having not used MERN-stack in more than half a year I really felt the rustiness at the beginning, but despite the initial difficulties I greatly enjoyed working on the project and I plan on improving the code and adding/changing features such as:
 
 - pagination looks good in Inventory, but I want the Home page with infinite scrolling
-- search bar sends name to pokeapi.co then tries to retrieve a pokemon, I want to be able to filter every pokemon ever and maybe add filtering by type as well
+- refactor models so that PokemonPagination component could be used in Inventory page
 - introducing user system, maybe team building
 - immigrating to next.js and then deploying
 
